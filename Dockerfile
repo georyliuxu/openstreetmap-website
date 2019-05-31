@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -qy nodejs postgresql-client sqlite3 --no-
 ENV RAILS_VERSION 5.2.3
 # 安装 Rails
 RUN gem install rails --version ${RAILS_VERSION}
-RUN yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel 
+#RUN yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel 
 
 ENV HOME /home/app
 
@@ -17,7 +17,7 @@ RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org
 
 RUN apt-get upate && \
         apt-get install -y --assume-yes apt-utils ruby2.5 libruby2.5 ruby2.5-dev libmagickwand-dev && \
-        apt-get install -y libxml2-dev libxslt1-dev && \
+        apt-get install -y libxml2-dev libxslt1-dev gcc gcc-c++ glibc make && \
         apt-get install -y  nodejs  apache2 apache2-dev build-essential git-core postgresql postgresql-contrib libpq-dev postgresql-server-dev-all && \
         apt-get install -y  libsasl2-dev imagemagick libffi-dev && \
         gem2.5 install bundler && \
