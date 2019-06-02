@@ -31,12 +31,12 @@ RUN cd openstreetmap-website
 RUN bundle install
 RUN cp config/example.database.yml config/database.yml
 RUN cp config/settings.yml config/settings.local.yml
-#RUN sudo -u postgres -i
+RUN sudo -u postgres -i
 #RUN sudo -u postgres psql 
 #RUN ALTER USER postgres WITH PASSWORD '123456';
 #RUN \q
-# RUN createuser -s postgres
-# RUN exit
+RUN createuser -s postgres
+RUN exit
 RUN bundle exec rake db:create
 RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE EXTENSION btree_gist"
 RUN cd db/functions
