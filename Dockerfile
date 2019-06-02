@@ -13,9 +13,11 @@ WORKDIR ${HOME}
 ADD . ${HOME}
 #RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 ENV TZ=Asia/Shanghai
+RUN apt-get update && apt-get install -y --no-install-recommends tzdata
 
-RUN apt-get update && apt-get install -y --no-install-recommends tzdata  && rm -rf /var/lib/apt/lists/*
-
+#RUN apt-get update
+#RUN echo "Asia/Shanghai" > /etc/timezone && \
+#    dpkg-reconfigure -f noninteractive tzdata
 RUN apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev libmagickwand-dev  \
     libxml2-dev libxslt1-dev \
     nodejs  apache2 apache2-dev build-essential git-core \
