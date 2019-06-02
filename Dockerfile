@@ -1,7 +1,5 @@
-FROM ruby:2.5.3
+FROM ubuntu:18.04
 RUN apt-get update && apt-get install -qy nodejs postgresql-client sqlite3 --no-install-recommends
-# 设置 Rails 版本
-ENV RAILS_VERSION 5.2.3
 # 安装 Rails
 #RUN apt-get install -y rails --version ${RAILS_VERSION}
 #RUN yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel 
