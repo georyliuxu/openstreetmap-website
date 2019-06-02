@@ -16,7 +16,7 @@ ADD . ${HOME}
 #RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 
 RUN apt-get update
-RUN apt-get install -y --assume-yes apt-utils ruby2.5 libruby2.5 ruby2.5-dev libmagickwand-dev  
+RUN apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev libmagickwand-dev  
 RUN apt-get install -y libxml2-dev libxslt1-dev
 RUN apt-get install -y  nodejs  apache2 apache2-dev build-essential git-core \
 postgresql postgresql-contrib libpq-dev postgresql-server-dev-all  
