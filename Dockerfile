@@ -1,9 +1,9 @@
 FROM ruby:2.5.3
-RUN apt-get update && apt-get install -qy nodejs postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -qy nodejs postgresql-client sqlite3 --no-install-recommends
 # 设置 Rails 版本
 ENV RAILS_VERSION 5.2.3
 # 安装 Rails
-RUN gem install rails --version ${RAILS_VERSION}
+#RUN apt-get install -y rails --version ${RAILS_VERSION}
 #RUN yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel 
 
 ENV HOME /home/app
@@ -13,22 +13,25 @@ RUN mkdir -p ${HOME}
 WORKDIR ${HOME}
 
 ADD . ${HOME}
-RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+#RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 
 RUN apt-get update
 RUN apt-get install -y --assume-yes apt-utils ruby2.5 libruby2.5 ruby2.5-dev libmagickwand-dev  
-RUN apt-get install -y libxml2-dev libxslt1-dev gcc gcc-c++ glibc make 
-RUN apt-get install -y  nodejs  apache2 apache2-dev build-essential git-core postgresql postgresql-contrib libpq-dev postgresql-server-dev-all  
+RUN apt-get install -y libxml2-dev libxslt1-dev
+RUN apt-get install -y  nodejs  apache2 apache2-dev build-essential git-core \
+postgresql postgresql-contrib libpq-dev postgresql-server-dev-all  
 RUN apt-get install -y  libsasl2-dev imagemagick libffi-dev 
 RUN gem2.5 install bundler  
+RUN gem install bundler --version '1.17.2'
 RUN cd /home/app
 RUN git clone https://github.com/openstreetmap/openstreetmap-website.git
 RUN cd openstreetmap-website
 RUN bundle install
 RUN cp config/example.database.yml config/database.yml
-RUN sudo -u postgres -i
-RUN createuser -s postgres
-RUN exit
+RUN cp config/settings.yml config/settings.local.yml
+# RUN sudo -u postgres -i
+# RUN createuser -s postgres
+# RUN exit
 RUN bundle exec rake db:create
 RUN psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 RUN cd db/functions
@@ -38,9 +41,9 @@ RUN psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4
 RUN psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
 RUN psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 RUN bundle exec rake db:migrate
-RUN bundle exec rake test:db
-RUN bundle install --deployment
+#RUN bundle exec rake test:db
 RUN bundle exec rails assets:precompile
+RUN bundle install --deployment
 
 # 启动 web 应用
 CMD ["bundle","exec","rails","server"]
