@@ -14,7 +14,7 @@ ADD . ${HOME}
 #RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 ENV TZ=Asia/Shanghai
 RUN apt-get update && apt-get install -y --no-install-recommends tzdata
-
+RUN apt-get install -y sudo
 #RUN apt-get update
 #RUN echo "Asia/Shanghai" > /etc/timezone && \
 #    dpkg-reconfigure -f noninteractive tzdata
