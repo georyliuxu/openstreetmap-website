@@ -31,7 +31,7 @@ RUN cd openstreetmap-website
 RUN bundle install
 RUN cp config/example.database.yml config/database.yml
 RUN cp config/settings.yml config/settings.local.yml
-RUN su - postgres -i
+RUN sudo -u postgres -i
 #RUN sudo -u postgres psql 
 #RUN ALTER USER postgres WITH PASSWORD '123456';
 #RUN \q
