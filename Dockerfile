@@ -41,17 +41,17 @@ RUN /etc/init.d/postgresql start
 #RUN \q
 #RUN createuser -s postgres
 #RUN exit
-RUN bundle exec rake db:create
-RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE EXTENSION btree_gist"
+#RUN bundle exec rake db:create
+#RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE EXTENSION btree_gist"
 RUN cd db/functions
 RUN make libpgosm.so
 RUN ln db/functions/libpgosm.so /tmp
 RUN cd ../..
 #RUN service iptables stop
-RUN psql -d openstreetmap -p 5432 -h 127.0.0.1  -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
-RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
-RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
-RUN bundle exec rake db:migrate
+#RUN psql -d openstreetmap -p 5432 -h 127.0.0.1  -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
+#RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
+#RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
+#RUN bundle exec rake db:migrate
 RUN bundle exec rake i18n:js:export
 #RUN bundle exec rake test:db
 RUN bundle exec rails assets:precompile
