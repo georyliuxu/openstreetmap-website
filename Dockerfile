@@ -44,8 +44,8 @@ RUN /etc/init.d/postgresql start
 #RUN bundle exec rake db:create
 #RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE EXTENSION btree_gist"
 RUN cd db/functions
-RUN make libpgosm.so
-RUN ln db/functions/libpgosm.so /tmp
+RUN make
+#RUN ln db/functions/libpgosm.so /tmp
 RUN cd ../..
 #RUN service iptables stop
 #RUN psql -d openstreetmap -p 5432 -h 127.0.0.1  -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
