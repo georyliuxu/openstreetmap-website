@@ -43,6 +43,7 @@ RUN /etc/init.d/postgresql start
 #RUN exit
 #RUN bundle exec rake db:create
 #RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE EXTENSION btree_gist"
+RUN apt-get install -y wget
 RUN wget http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.6.tar.gz
 RUN tar zxvf ncurses-5.6.tar.gz
 RUN ./configure -prefix=/usr/local -with-shared-without-debug
