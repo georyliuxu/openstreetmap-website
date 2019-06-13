@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "https://gems.ruby-china.com"
 
 # Require rails
 gem "rails", "5.2.3"
