@@ -43,16 +43,11 @@ RUN /etc/init.d/postgresql start
 #RUN exit
 #RUN bundle exec rake db:create
 #RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE EXTENSION btree_gist"
-RUN apt-get install -y wget
-RUN wget http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.6.tar.gz
-RUN tar zxvf ncurses-5.6.tar.gz
-RUN ./configure -prefix=/usr/local -with-shared-without-debug
-RUN make
-RUN make install
-RUN cd db/functions
-RUN make
+#RUN apt-get install -y wget
+#RUN wget http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.6.tar.gz
+#RUN tar zxvf ncurses-5.6.tar.gz  && cd ncurses-5.6 && ./configure -prefix=/usr/local -with-shared-without-debug && make && make install
+RUN cd db/functions &&  make libpgosm.so && cd ../..
 #RUN ln db/functions/libpgosm.so /tmp
-RUN cd ../..
 #RUN service iptables stop
 #RUN psql -d openstreetmap -p 5432 -h 127.0.0.1  -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
 #RUN psql -d openstreetmap -p 5432 -h 127.0.0.1 -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
