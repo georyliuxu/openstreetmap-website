@@ -14,7 +14,7 @@ ADD . ${HOME}
 #RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 ENV TZ=Asia/Shanghai
 RUN apt-get update && apt-get install -y --no-install-recommends tzdata
-RUN apt-get install -y sudo
+#RUN apt-get install -y sudo
 #RUN apt-get update
 #RUN echo "Asia/Shanghai" > /etc/timezone && \
 #    dpkg-reconfigure -f noninteractive tzdata
@@ -27,13 +27,12 @@ RUN gem2.5 install bundler
 RUN gem install bundler --version '1.17.2'
 RUN cd /home/app
 RUN git clone https://github.com/openstreetmap/openstreetmap-website.git
-RUN cd openstreetmap-website
-RUN bundle install
-RUN cp config/example.database.yml config/database.yml
-RUN cp config/settings.yml config/settings.local.yml
+RUN cd openstreetmap-website && bundle install
+WORKDIR ${HOME}/openstreetmap-website
+RUN cp config/example.database.yml config/database.yml && cp config/settings.yml config/settings.local.yml
 
-RUN ls /etc/init.d/
-RUN /etc/init.d/postgresql start
+#RUN ls /etc/init.d/
+#RUN /etc/init.d/postgresql start
 
 #RUN sudo -u postgres -i
 #RUN sudo -u postgres psql 
